@@ -1,0 +1,10 @@
+#MakeFile
+
+proj: Camioes.cpp
+	g++ -std=c++11 -o Camioes -Wall proj.cpp -lm 
+
+clean: 
+	rm -f Camioes
+
+run:
+	./proj
