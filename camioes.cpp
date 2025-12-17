@@ -1,6 +1,7 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -24,6 +25,41 @@ void matrizAdj(Graph g, int nVertices, vector<vector<int>> &Memo){
 
     }
     return;
+}
+
+vector<int> ordTop(Graph g, int nVertices){
+    
+
+    queue<int> q;
+    vector<int> edges(nVertices,0);
+    vector<int> resultado;
+
+    for(int i = 0; i < nVertices; i++){
+        for(int next : g.Vertices[i].neighbors){
+            edges[next-1]++;
+        }
+    }
+
+    for(int i = 1; i <= nVertices; i++){
+        if(edges[i-1] == 0){
+            q.push(i);
+        }
+    }
+
+    while(!q.empty()){
+        int tampa = q.front();
+        q.pop();
+        resultado.push_back(tampa);
+        for(int next: g.Vertices[tampa-1].neighbors){
+
+            edges[next-1]--;
+            if(edges[next-1] == 0){
+                q.push(next);
+            }
+        }
+    }
+    return resultado;
+
 }
 
 int main(){
@@ -52,6 +88,7 @@ int main(){
     }
 
     matrizAdj(g, _nVertices, Memo);
+    vector <int> pila = ordTop(g, _nVertices);
     /*cout << _nVertices << endl;
     cout << _nTrucks << endl;
     cout << l << endl;
@@ -62,12 +99,10 @@ int main(){
             cout << g.Vertices[i].neighbors[j] << endl;
         }
     } // foi só para testar se o output copiado era o correto*/
-    for (int n = 0; n < _nVertices; n++){
-        for (int n1 = 0; n1 < _nVertices; n1++){
-            cout << Memo[n][n1] << ' ';
-        }
-        cout << endl;
+    for (int next: pila){
+        cout << next << ' ';
     }
+    cout << endl;
 
 
     return 0;
