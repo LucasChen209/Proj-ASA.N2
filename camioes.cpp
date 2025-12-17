@@ -14,7 +14,17 @@ struct Graph { //grafo em si, nao é necessária ser uma struct, mas li que é b
     vector<Vertice> Vertices;
 };
 
+void matrizAdj(Graph g, int nVertices, vector<vector<int>> &Memo){
+    for (int n = 0; n < nVertices; n++){
+        int tamanho = g.Vertices[n].neighbors.size();
+        for(int n1 = 0; n1 < tamanho; n1++){
+            int i = g.Vertices[n].neighbors[n1];
+            Memo[n][i-1]++;
+        }
 
+    }
+    return;
+}
 
 int main(){
     ios::sync_with_stdio(0);
@@ -25,9 +35,9 @@ int main(){
     vector<pair<int, int>> _edges;
 
     cin >> _nVertices;
+    vector<vector<int>> Memo(_nVertices, vector<int>(_nVertices, 0));
     cin >> _nTrucks;
-    cin >> l;//limite esquerdo da gama
-    cin >> r;//limite direito da gama
+    cin >> l >> r;//limite esquerdo da gama//limite direito da gama
     _gamaCamioes.push_back(l); _gamaCamioes.push_back(r); //nao sei se isto vai ser necessário, mas vou deixar so para garantir
     cin >>_nEdges;
     int _edgesRead = 0;
@@ -36,9 +46,12 @@ int main(){
     while(_edgesRead < _nEdges) {
         cin >> u;
         cin >> v;
+        u--;
         g.Vertices[u].neighbors.push_back(v);
         _edgesRead ++;
     }
+
+    matrizAdj(g, _nVertices, Memo);
     /*cout << _nVertices << endl;
     cout << _nTrucks << endl;
     cout << l << endl;
@@ -49,7 +62,12 @@ int main(){
             cout << g.Vertices[i].neighbors[j] << endl;
         }
     } // foi só para testar se o output copiado era o correto*/
-   
+    for (int n = 0; n < _nVertices; n++){
+        for (int n1 = 0; n1 < _nVertices; n1++){
+            cout << Memo[n][n1] << ' ';
+        }
+        cout << endl;
+    }
 
 
     return 0;
