@@ -20,17 +20,18 @@ unsigned long long CalcTruckNum(unsigned long long _possiblePaths, unsigned long
     return 1 + _possiblePaths % _numTrucks;
 }
 
-void PossiblePaths(Graph g, vector<vector<unsigned long long>> &memo, unsigned long long _numVertices, vector< unsigned long long> _listTopo) {
+void PossiblePaths(Graph g, vector<vector<unsigned long long>> &memo, unsigned long long _numVertices, vector< unsigned long long> _listTopo, unsigned long long _nTrucks) {
     unsigned long long Toposize = _listTopo.size();
     for(unsigned long long v = 0; v < Toposize; v++) {
         unsigned long long order = _listTopo[v];//elemento em si
         for(unsigned long long e = 0; e < _numVertices; e++) {
-            if(memo[e][order] == 0){
+            unsigned long long a = memo[e][order] % _nTrucks;
+            if(a == 0){ // se não existir conexão de e para order
                 continue;
             }
             for(unsigned long long n : g.Vertices[order].neighbors) {
-                unsigned long long filamult = memo[order][n] * memo[e][order];
-                memo[e][n] = memo[e][n] + filamult;
+                unsigned long long filamult = memo[order][n] * a;
+                memo[e][n] += filamult;
                 //cout << memo[e][order-1] << "este é depois de somado com" << filamult << endl;
             }
         }
@@ -151,7 +152,7 @@ int main(){
             cout << g.Vertices[i].neighbors[j] << endl;
         }
     } // foi só para testar se o output copiado era o correto*/
-    PossiblePaths(g,Memo,_nVertices,pila);
+    PossiblePaths(g,Memo,_nVertices,pila,_nTrucks);
     /*for (int n = 0; n < _nVertices; n++){
         for (int n1 = 0; n1 < _nVertices; n1++){
             cout << Memo[n][n1] << ' ';dasdagshhfhqhshdfbeubqsocjioqwshjfj
