@@ -5,4 +5,4 @@ clean:
 		rm -f camioes
 
 run:
-		./camioes < teste
+		time ./camioes < testfile
