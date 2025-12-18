@@ -20,13 +20,13 @@ unsigned long long CalcTruckNum(unsigned long long _possiblePaths, unsigned long
     return 1 + _possiblePaths % _numTrucks;
 }
 
-void PossiblePaths(Graph g, vector<vector<unsigned long long>> &memo, unsigned long long _numVertices, vector< unsigned long long> _listTopo, unsigned long long _nTrucks) {
+void PossiblePaths(Graph &g, vector<vector<unsigned long long>> &memo, unsigned long long _numVertices, vector<unsigned long long> &_listTopo, unsigned long long _nTrucks) {
     unsigned long long Toposize = _listTopo.size();
     for(unsigned long long v = 0; v < Toposize; v++) {
         unsigned long long order = _listTopo[v];//elemento em si
         for(unsigned long long e = 0; e < _numVertices; e++) {
             unsigned long long a = memo[e][order] % _nTrucks;
-            if(a == 0){ // se não existir conexão de e para order
+            if(a == 0){ // se não existir conexão de e para order lalalal
                 continue;
             }
             for(unsigned long long n : g.Vertices[order].neighbors) {
@@ -40,7 +40,7 @@ void PossiblePaths(Graph g, vector<vector<unsigned long long>> &memo, unsigned l
 
 }
 
-void CalWhichTruck(vector<vector<unsigned long long>> sorted, unsigned long long _numVertices, pair<unsigned long long,unsigned long long> &gama, unsigned long long _numTrucks) {
+void CalWhichTruck(vector<vector<unsigned long long>> &sorted, unsigned long long &_numVertices, pair<unsigned long long,unsigned long long> &gama, unsigned long long &_numTrucks) {
     unsigned long long l = gama.first - 1,r = gama.second;
 
     vector<string> trucks(_numTrucks,"");
@@ -70,7 +70,7 @@ void CalWhichTruck(vector<vector<unsigned long long>> sorted, unsigned long long
     
 }
 
-void matrizAdj(Graph g, unsigned long long nVertices, vector<vector<unsigned long long>> &Memo){
+void matrizAdj(Graph &g, unsigned long long nVertices, vector<vector<unsigned long long>> &Memo){
     for (unsigned long long n = 0; n < nVertices; n++){
         unsigned long long tamanho = g.Vertices[n].neighbors.size();
         for(unsigned long long n1 = 0; n1 < tamanho; n1++){
@@ -82,7 +82,7 @@ void matrizAdj(Graph g, unsigned long long nVertices, vector<vector<unsigned lon
     return;
 }
 
-vector<unsigned long long> ordTop(Graph g, unsigned long long nVertices){
+vector<unsigned long long> ordTop(Graph &g, unsigned long long nVertices){
     
 
     queue<unsigned long long> q;
