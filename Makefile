@@ -1,5 +1,5 @@
-camioes: camioes.cpp
-		g++ -std=c++11 -o camioes -Wall camioes.cpp -lm
+camioes: camioest.cpp
+		g++ -std=c++11 -o camioes -Wall camioest.cpp -lm
 
 clean:
 		rm -f camioes
